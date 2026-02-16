@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bih885tw6ct1l"]
+
+[ext_resource type="Material" uid="uid://dy152hur5mljc" path="res://Materials/Grid/grid_green_material.tres" id="1_jccdb"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_58vy6"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_58vy6"]
+
+[node name="Player_CharacterBody3D" type="CharacterBody3D" unique_id=61953689]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1949464024]
+shape = SubResource("CapsuleShape3D_58vy6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=106801783]
+material_override = ExtResource("1_jccdb")
+mesh = SubResource("CapsuleMesh_58vy6")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1039005085]
+transform = Transform3D(1, 0, 0, 0, 0.90630776, 0.42261827, 0, -0.42261827, 0.90630776, 0, 2, 4)
