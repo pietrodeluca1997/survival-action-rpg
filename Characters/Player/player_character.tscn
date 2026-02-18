@@ -1,10 +1,19 @@
 [gd_scene format=3 uid="uid://bih885tw6ct1l"]
 
 [ext_resource type="Material" uid="uid://dy152hur5mljc" path="res://Materials/Grid/grid_green_material.tres" id="1_jccdb"]
+[ext_resource type="Script" uid="uid://b6h2ofhx52jfm" path="res://Scripts/Components/Locomotion/LocomotionController3D.cs" id="2_wbjdu"]
+[ext_resource type="Script" uid="uid://bxvmfud6n83ax" path="res://Scripts/Components/Locomotion/GravityComponent3D.cs" id="4_6hx3w"]
+[ext_resource type="Script" uid="uid://d0jujxu6eo3b1" path="res://Scripts/Components/Locomotion/FloorDetectorComponent3D.cs" id="4_nnrug"]
+[ext_resource type="Script" uid="uid://k18y7xmb4fyj" path="res://Scripts/Components/Locomotion/HumanoidLocomotionComponent3D.cs" id="5_nnrug"]
+[ext_resource type="Script" uid="uid://b6pc3yb00o47y" path="res://Scripts/Components/Locomotion/LocomotionDebuggerComponent3D.cs" id="6_2e07i"]
+[ext_resource type="Script" uid="uid://wmlxhmmaxbng" path="res://Scripts/Components/UserInput/InputReader.cs" id="7_2e07i"]
+[ext_resource type="Script" uid="uid://d2vcptkxv70ks" path="res://Scripts/Components/UserCamera/CameraController3D.cs" id="8_d2ux2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_58vy6"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_58vy6"]
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_2e07i"]
 
 [node name="Player_CharacterBody3D" type="CharacterBody3D" unique_id=61953689]
 
@@ -15,5 +24,53 @@ shape = SubResource("CapsuleShape3D_58vy6")
 material_override = ExtResource("1_jccdb")
 mesh = SubResource("CapsuleMesh_58vy6")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1039005085]
-transform = Transform3D(1, 0, 0, 0, 0.90630776, 0.42261827, 0, -0.42261827, 0.90630776, 0, 2, 4)
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=1851388586]
+transform = Transform3D(1, 0, 0, 0, 0.90630776, 0.42261827, 0, -0.42261827, 0.90630776, 0, 0, 0)
+shape = SubResource("SeparationRayShape3D_2e07i")
+spring_length = 4.0
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=1039005085]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0)
+
+[node name="LocomotionController3D" type="Node" parent="." unique_id=461164439 node_paths=PackedStringArray("TargetBody", "FloorDetectorComponent", "GravityComponent", "HumanoidLocomotionComponent", "MovementDirectionReference")]
+script = ExtResource("2_wbjdu")
+TargetBody = NodePath("..")
+FloorDetectorComponent = NodePath("FloorDetectorComponent3D")
+GravityComponent = NodePath("GravityComponent3D")
+HumanoidLocomotionComponent = NodePath("HumanoidLocomotionComponent3D")
+ShouldUseDirectionReference = true
+MovementDirectionReference = NodePath("../CameraHorizontalPivot_Node3D")
+
+[node name="GravityComponent3D" type="Node" parent="LocomotionController3D" unique_id=212203380]
+script = ExtResource("4_6hx3w")
+metadata/_custom_type_script = "uid://bxvmfud6n83ax"
+
+[node name="FloorDetectorComponent3D" type="Node" parent="LocomotionController3D" unique_id=1647069996 node_paths=PackedStringArray("TargetBody")]
+script = ExtResource("4_nnrug")
+TargetBody = NodePath("../..")
+metadata/_custom_type_script = "uid://d0jujxu6eo3b1"
+
+[node name="HumanoidLocomotionComponent3D" type="Node" parent="LocomotionController3D" unique_id=2031078532]
+script = ExtResource("5_nnrug")
+metadata/_custom_type_script = "uid://k18y7xmb4fyj"
+
+[node name="LocomotionDebugger3D" type="Node" parent="LocomotionController3D" unique_id=1182633765 node_paths=PackedStringArray("LocomotionController", "FloorDetectorComponent")]
+script = ExtResource("6_2e07i")
+LocomotionController = NodePath("..")
+FloorDetectorComponent = NodePath("../FloorDetectorComponent3D")
+
+[node name="InputReader" type="Node" parent="." unique_id=125599003 node_paths=PackedStringArray("LocomotionController", "CameraController")]
+script = ExtResource("7_2e07i")
+LocomotionController = NodePath("../LocomotionController3D")
+CameraController = NodePath("../CameraController3D")
+
+[node name="CameraHorizontalPivot_Node3D" type="Node3D" parent="." unique_id=1848865874]
+
+[node name="CameraVerticalPivot_Node3D" type="Node3D" parent="CameraHorizontalPivot_Node3D" unique_id=1524535888]
+
+[node name="CameraController3D" type="Node" parent="." unique_id=792616093 node_paths=PackedStringArray("SpringArm", "Camera", "HorizontalCameraPivot", "VerticalCameraPivot")]
+script = ExtResource("8_d2ux2")
+SpringArm = NodePath("../SpringArm3D")
+Camera = NodePath("../SpringArm3D/Camera3D")
+HorizontalCameraPivot = NodePath("../CameraHorizontalPivot_Node3D")
+VerticalCameraPivot = NodePath("../CameraHorizontalPivot_Node3D/CameraVerticalPivot_Node3D")
