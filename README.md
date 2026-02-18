@@ -26,6 +26,20 @@ Establish the initial playable space and player presence.
 ### 🎯 Objective
 Implement a modular, decoupled locomotion architecture with camera-relative movement and isolated debug systems.
 
-[![Phase 2 – Watch Video](https://img.youtube.com/vi/20tnXulnDP8/maxresdefault.jpg)](https://youtu.be/20tnXulnDP8)
+### 🎬 Demonstration Video (Click to Watch)
+
+<p align="center">
+  <a href="https://youtu.be/20tnXulnDP8" target="_blank">
+    <img 
+      src="https://img.youtube.com/vi/20tnXulnDP8/maxresdefault.jpg" 
+      width="100%"
+      style="border-radius:12px; border:2px solid #30363d;" 
+    />
+  </a>
+</p>
+
+<p align="center">
+  ▶ Watch on YouTube
+</p>
 
 ---
